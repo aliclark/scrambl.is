@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>scrambl.is</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <noscript>
+      <h1>scrambl.is</h1>
+      <p>Please enabled Javascript before using this page.</p>
+    </noscript>
+    <div id="all">
+      <div id="write-box" class="box">
+	<div class="box-inner">
+	  <h2>Write</h2>
+	  <form role="form">
+	    <div class="form-group form-inline">
+	      <div class="input-group">
+		<div class="input-group-addon">@</div>
+		<input id="recipient-in" class="form-control" placeholder="twitter / email (optional)">
+	      </div>
+	      <a id="tweet-btn" class="btn btn-default" style="display: none;">tweet</a>
+	      <a id="email-btn" class="btn btn-default" style="display: none;">email</a>
+	    </div>
+	    <div class="form-group">
+	      <input id="encrypt-to" class="form-control pubkey" placeholder="Enter public key">
+	    </div>
+	    <div class="form-group">
+	      <textarea id="encrypt-in" class="form-control" rows="4" placeholder="Enter message"></textarea>
+	    </div>
+	    <div id="encrypt-out-cont" class="ciphertext result">
+	      <div id="encrypt-out" class="inner">
+
+</div>
+	    </div>
+	  </form>
+	</div>
+      </div>
+
+      <div id="read-box" class="box">
+	<div class="box-inner">
+	  <h2>Read</h2>
+	  <div id="your-address-cont" class="form-group form-inline">
+	    <div class="input-group">
+	      <div class="input-group-addon">@</div>
+	      <input id="address-in" class="form-control" placeholder="Your twitter / email (optional)">
+	    </div>
+	  </div>
+	  <div id="your-key-cont" class="form-group form-horizontal">
+	    <label class="col-sm-2 control-label">Your key</label>
+	    <div class="col-sm-10">
+	      <p class="pubkey form-control-static"><span id="mykey"></span> <a href="#" id="your-link">Link</a></p>
+	    </div>
+	  </div>
+	  <div id="passphrase-in-cont" class="form-group form-inline">
+	    <form action="https://127.0.0.1/" method="post">
+	      <input type="password" id="passphrase-in" class="form-control" placeholder="Your passphrase" />
+	      <input class="btn btn-default" id="passphrase-use" type="submit" value="Use passphrase">
+	    </form>
+	  </div>
+	  <div class="form-group">
+	    <textarea id="decrypt-in" rows="4" class="form-control ciphertext" placeholder="Copy the encoded message into here"></textarea>
+	  </div>
+	  <div id="decrypt-out-cont" class="result">
+	    <div id="decrypt-out" class="inner">
+
+</div>
+	  </div>
+	</div>
+      </div>
+
+      <div id="setup-box" class="box">
+	<div class="box-inner">
+	  <h2>Setup</h2>
+	  <form role="form" class="form-horizontal">
+	    <div class="form-group">
+	      <div class="col-sm-2">
+		<button type="submit" class="btn btn-default" id="passphrase-generate">Generate passphrase</button>
+	      </div>
+	    </div>
+	    <div id="passphrase-showing-box" class="form-group form-inline">
+	      <label class="col-sm-2 control-label">Passphrase</label>
+	      <div class="col-sm-10">
+		<p id="passphrase-shown" class="pubkey form-control-static"></p>
+		<button type="submit" class="btn btn-default" id="passphrase-hider">Clear</button>
+	      </div>
+	    </div>
+	  </form>
+	</div>
+      </div>
+
+      <div id="keys-box" class="box" style="display: none">
+	<div class="box-inner">
+	  <h2>Keys</h2>
+	  <table>
+	    <tbody id="keys-tbody">
+	      <tr><td>bill@example.net</td><td class="pubkey">5S2o7JL7FhTEmCJfkDqLLe9GrjDJ2X7qGkcgrXHDxmDW</td></tr>
+	      <tr><td>@M4tes</td><td class="pubkey">DVuq83QecqiD5roXeACQXSJQyG5xdq4uyLdz7jrTTzfB</td></tr>
+	    </tbody>
+	  </table>
+	</div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="words.js"></script>
+    <script type="text/javascript" src="base58.js"></script>
+    <script type="text/javascript" src="nacl.js"></script>
+    <script type="text/javascript" src="scramblis.js"></script>
+  </body>
+</html>
