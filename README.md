@@ -6,7 +6,7 @@ reading of encrypted messages, with usability as the primary goal.
 
 Like miniLock, it uses TweetNaCL-JS and its public keys are shared in
 base 58. However a passphrase will generate a different miniLock ID
-and than its generated scrambl.is public key.
+to its generated scrambl.is public key.
 
 Own passphrases are not permitted - a 7 word passphrase of 50,000
 potential words is generated using a 'Generate passphrase' button, and
