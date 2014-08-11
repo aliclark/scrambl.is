@@ -430,7 +430,7 @@
 
     function setupHide() {
 	document.getElementById('passphrase-shown').textContent = '';
-	document.getElementById('setup-box').style.visibility = 'hidden';
+	document.getElementById('setup-box').style.display = 'none';
 	document.getElementById('passphrase-in').focus();
     }
 
