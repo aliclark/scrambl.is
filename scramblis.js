@@ -547,42 +547,6 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    function supports_html5_storage() {
-	try {
-	    return 'localStorage' in window && window['localStorage'] !== null;
-	} catch (e) {
-	    return false;
-	}
-    }
-
-    function trySetupKeysBox() {
-	if (!supports_html5_storage()) {
-	    return;
-	}
-	var keys = localStorage['keys'];
-	if (!keys) {
-	    return;
-	}
-	keys = JSON.parse(keys);
-	if (keys.length === 0) {
-	    return;
-	}
-	var tbody = document.getElementById('keys-tbody');
-	for (var i = 0; i < keys.length; ++i) {
-	    var tr = document.createElement('tr');
-	    var key_td = document.createElement('td');
-	    var recipient_td = document.createElement('td');
-	    key_td.textContent = keys[i].key;
-	    recipient_td.textContent = keys[i].recipient;
-	    tr.appendChild(key_td);
-	    tr.appendChild(recipient_td);
-	    tbody.appendChild(tr);
-	}
-	document.getElementById('keys-box').style.display = 'block';
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////
-
     window.onload = function () {
 
 	// TODO: local-storage for recipient->pubkey mapping?
@@ -623,8 +587,6 @@
 	    setTimeout(focusRecipientIn, 0);
 	}
 	document.getElementById('all').style.display = 'block';
-
-	trySetupKeysBox();
     };
 
     ////////////////////////////////////////////////////////////////////////////////
