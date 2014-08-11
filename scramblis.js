@@ -547,8 +547,8 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    function focusRecipientIn() {
-	document.getElementById('recipient-in').focus();
+    function focusGeneratePassphrase() {
+	document.getElementById('passphrase-generate').focus();
     }
 
     function focusEncryptIn() {
@@ -629,7 +629,7 @@
 	} else if (loadedKey) {
 	    setTimeout(focusEncryptIn, 0);
 	} else {
-	    setTimeout(focusRecipientIn, 0);
+	    setTimeout(focusGeneratePassphrase, 0);
 	}
 	document.getElementById('all').style.display = 'block';
     };
