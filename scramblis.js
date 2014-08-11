@@ -580,18 +580,15 @@
 	// size to mean eg. "is multipart email" and try to parse
 	// multipart stuff.
 
-	// TODO: Twitter/Email/Plain Link/Google+/Facebook sharing of the /write/ url
+	// TODO: If loading from URL, just show that component? maybe
+	// with a link to a fresh page?
 
-	// TODO: If loading from URL, just show that component? maybe with a link to a fresh page?
-
-	// TODO: URL shortener Button? eg. "http://is.gd/create.php?url=https%3A%2F%2Fscrambl.is%2Fread%2F"+ct for <=4096 ciphertext
-	// -- they may not be happy with this usage case
-
-	// A bespoke solution like
-	// https://scrambl.is/read/SYjjjGRPa4zOCjw3SUlJ may be better,
-	// but requires development time for implementation and DOS
-	// protection. It would be good to say up-front that links
-	// will expire in 1 weeek.
+	// TODO: Could have a button to upload ciphertext to server
+	// and provide a short URL like
+	// https://scrambl.is/read/SYjjjGRPa4zOCjw3SUlJ but would
+	// require development time for implementation and DOS
+	// protection. A link expiry of 1 week would help, but needs
+	// to be clear that is the case.
 
 	var loadedText = loadCiphertextFromUrl();
 
