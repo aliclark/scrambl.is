@@ -432,7 +432,6 @@
 	document.getElementById('passphrase-shown').textContent = '';
 	document.getElementById('setup-box').style.visibility = 'hidden';
 	document.getElementById('passphrase-in').focus();
-	return false;
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -598,8 +597,6 @@
 
 	if (hasRandom) {
 	    var loadedKey = loadEncryptToFromUrl();
-
-	    document.getElementById('passphrase-hider').onclick = setupHide;
 
 	    document.getElementById('passphrase-generate').onclick = generateKey;
 
