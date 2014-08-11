@@ -274,6 +274,11 @@
 	return false;
     }
 
+    function copyShareLink() {
+	prompt("Copy to clipboard: Ctrl+C, Enter", document.getElementById("share-link").href);
+	return false;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////
 
     function recipientType(val) {
@@ -496,7 +501,9 @@
 		break;
 	    }
 	}
-	document.getElementById('your-link').href = url;
+	document.getElementById('share-link').href = url;
+	document.getElementById('share-email').href = "mailto:?body=" + encodeURIComponent(url);
+	document.getElementById('share-twitter').href = "https://twitter.com/intent/tweet?text=My%20scrambl.is%20link&url=" + encodeURIComponent(url);
 
 	document.getElementById('your-address-cont').style.display = 'none';
 	document.getElementById('passphrase-in-cont').style.display = 'none';
@@ -583,7 +590,7 @@
 
 	// A bespoke solution like
 	// https://scrambl.is/read/SYjjjGRPa4zOCjw3SUlJ may be better,
-	// but requires development type for implementation and DOS
+	// but requires development time for implementation and DOS
 	// protection. It would be good to say up-front that links
 	// will expire in 1 weeek.
 
@@ -607,6 +614,7 @@
 	    recipientChange();
 
 	    document.getElementById('encrypt-out-link').onclick = copyLink;
+	    document.getElementById('share-link').onclick = copyShareLink;
 
 	    enBox();
 
