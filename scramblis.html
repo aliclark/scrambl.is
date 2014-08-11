@@ -103,32 +103,24 @@ h2 {
       <p>Please enabled Javascript before using this page.</p>
     </noscript>
     <div id="all">
-      <div id="write-box" class="box">
-	<div class="box-inner">
-	  <h2>Write</h2>
-	  <p id="write-no-random">Unfortunately a modern browser such
-	  as Chrome, Firefox or Internet Explorer 11 is required to
-	  compose messages.</p>
-	  <form id="write-form" role="form">
-	    <div class="form-group form-inline">
-	      <div class="input-group">
-		<div class="input-group-addon">@</div>
-		<input id="recipient-in" class="form-control" placeholder="twitter / email (optional)">
-	      </div>
-	      <a id="tweet-btn" class="btn btn-default" style="display: none;">tweet</a>
-	      <a id="email-btn" class="btn btn-default" style="display: none;">email</a>
-	    </div>
-	    <div class="form-group">
-	      <input id="encrypt-to" class="form-control pubkey" placeholder="Enter public key">
-	    </div>
-	    <div class="form-group">
-	      <textarea id="encrypt-in" class="form-control" rows="4" placeholder="Enter message"></textarea>
-	    </div>
-	    <div id="encrypt-out-cont" class="ciphertext result">
-	      <div id="encrypt-out" class="inner">
 
-</div>
-	      <a id="encrypt-out-link" class="btn btn-link">Copy<br>URL</a>
+      <div id="setup-box" class="box">
+	<div class="box-inner">
+	  <h2>Setup</h2>
+	  <p id="setup-no-random">Unfortunately a modern browser such
+	  as Chrome, Firefox or Internet Explorer 11 is required to
+	  generate passphrases.</p>
+	  <form id="setup-form" role="form" class="form-horizontal">
+	    <div class="form-group">
+	      <div class="col-sm-2">
+		<button type="submit" class="btn btn-default" id="passphrase-generate">Generate passphrase</button>
+	      </div>
+	    </div>
+	    <div id="passphrase-showing-box" class="form-group form-inline">
+	      <label class="col-sm-2 control-label">Passphrase</label>
+	      <div class="col-sm-10">
+		<p id="passphrase-shown" class="pubkey form-control-static"></p>
+	      </div>
 	    </div>
 	  </form>
 	</div>
@@ -171,23 +163,32 @@ h2 {
 	</div>
       </div>
 
-      <div id="setup-box" class="box">
+      <div id="write-box" class="box">
 	<div class="box-inner">
-	  <h2>Setup</h2>
-	  <p id="setup-no-random">Unfortunately a modern browser such
+	  <h2>Write</h2>
+	  <p id="write-no-random">Unfortunately a modern browser such
 	  as Chrome, Firefox or Internet Explorer 11 is required to
-	  generate passphrases.</p>
-	  <form id="setup-form" role="form" class="form-horizontal">
-	    <div class="form-group">
-	      <div class="col-sm-2">
-		<button type="submit" class="btn btn-default" id="passphrase-generate">Generate passphrase</button>
+	  compose messages.</p>
+	  <form id="write-form" role="form">
+	    <div class="form-group form-inline">
+	      <div class="input-group">
+		<div class="input-group-addon">@</div>
+		<input id="recipient-in" class="form-control" placeholder="twitter / email (optional)">
 	      </div>
+	      <a id="tweet-btn" class="btn btn-default" style="display: none;">tweet</a>
+	      <a id="email-btn" class="btn btn-default" style="display: none;">email</a>
 	    </div>
-	    <div id="passphrase-showing-box" class="form-group form-inline">
-	      <label class="col-sm-2 control-label">Passphrase</label>
-	      <div class="col-sm-10">
-		<p id="passphrase-shown" class="pubkey form-control-static"></p>
-	      </div>
+	    <div class="form-group">
+	      <input id="encrypt-to" class="form-control pubkey" placeholder="Enter public key">
+	    </div>
+	    <div class="form-group">
+	      <textarea id="encrypt-in" class="form-control" rows="4" placeholder="Enter message"></textarea>
+	    </div>
+	    <div id="encrypt-out-cont" class="ciphertext result">
+	      <div id="encrypt-out" class="inner">
+
+</div>
+	      <a id="encrypt-out-link" class="btn btn-link">Copy<br>URL</a>
 	    </div>
 	  </form>
 	</div>
@@ -1917,7 +1918,7 @@ nacl.setPRNG = function(fn) {
 
     function setupHide() {
 	document.getElementById('passphrase-shown').textContent = '';
-	document.getElementById('setup-box').style.visibility = 'hidden';
+	document.getElementById('setup-box').style.display = 'none';
 	document.getElementById('passphrase-in').focus();
     }
 
