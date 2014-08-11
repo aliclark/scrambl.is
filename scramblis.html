@@ -63,6 +63,17 @@ h2 {
     padding-left: 16px;
 }
 
+#encrypt-out-cont {
+    position: relative;
+}
+
+#encrypt-out-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+}
+
 #your-key-cont {
     display: none;
     padding-bottom: 32px;
@@ -79,6 +90,11 @@ h2 {
 #passphrase-shown {
     font-size: 12px;
 }
+
+#write-no-random,
+#setup-no-random {
+    display: none;
+}
 </style>
   </head>
   <body>
@@ -90,7 +106,10 @@ h2 {
       <div id="write-box" class="box">
 	<div class="box-inner">
 	  <h2>Write</h2>
-	  <form role="form">
+	  <p id="write-no-random">Unfortunately a modern browser such
+	  as Chrome, Firefox or Internet Explorer 11 is required to
+	  compose messages.</p>
+	  <form id="write-form" role="form">
 	    <div class="form-group form-inline">
 	      <div class="input-group">
 		<div class="input-group-addon">@</div>
@@ -109,6 +128,7 @@ h2 {
 	      <div id="encrypt-out" class="inner">
 
 </div>
+	      <a id="encrypt-out-link" class="btn btn-link">Copy<br>URL</a>
 	    </div>
 	  </form>
 	</div>
@@ -126,7 +146,12 @@ h2 {
 	  <div id="your-key-cont" class="form-group form-horizontal">
 	    <label class="col-sm-2 control-label">Your key</label>
 	    <div class="col-sm-10">
-	      <p class="pubkey form-control-static"><span id="mykey"></span> <a href="#" id="your-link">Link</a></p>
+	      <p class="pubkey form-control-static"><span id="mykey"></span></p>
+	      <p>Share:
+		<a class="btn btn-link" href="#" id="share-link">Link</a>
+		<a class="btn btn-link" href="#" id="share-email">E-mail</a>
+		<a class="btn btn-link" href="#" id="share-twitter">Twitter</a>
+	      </p>
 	    </div>
 	  </div>
 	  <div id="passphrase-in-cont" class="form-group form-inline">
@@ -149,7 +174,10 @@ h2 {
       <div id="setup-box" class="box">
 	<div class="box-inner">
 	  <h2>Setup</h2>
-	  <form role="form" class="form-horizontal">
+	  <p id="setup-no-random">Unfortunately a modern browser such
+	  as Chrome, Firefox or Internet Explorer 11 is required to
+	  generate passphrases.</p>
+	  <form id="setup-form" role="form" class="form-horizontal">
 	    <div class="form-group">
 	      <div class="col-sm-2">
 		<button type="submit" class="btn btn-default" id="passphrase-generate">Generate passphrase</button>
@@ -159,7 +187,6 @@ h2 {
 	      <label class="col-sm-2 control-label">Passphrase</label>
 	      <div class="col-sm-10">
 		<p id="passphrase-shown" class="pubkey form-control-static"></p>
-		<button type="submit" class="btn btn-default" id="passphrase-hider">Clear</button>
 	      </div>
 	    </div>
 	  </form>
@@ -1729,6 +1756,18 @@ nacl.setPRNG = function(fn) {
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    function copyLink() {
+	prompt("Copy to clipboard: Ctrl+C, Enter", document.getElementById("encrypt-out-link").href);
+	return false;
+    }
+
+    function copyShareLink() {
+	prompt("Copy to clipboard: Ctrl+C, Enter", document.getElementById("share-link").href);
+	return false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     function recipientType(val) {
 	return (val.indexOf('@') > 0) ? 'email' : 'tweet';
     }
@@ -1834,9 +1873,12 @@ nacl.setPRNG = function(fn) {
 	if (boxed === null) {
 	    document.getElementById('encrypt-out').textContent = "\n\n";
 	    doesntHaveStuff(document.getElementById('encrypt-out-cont'));
+	    document.getElementById('encrypt-out-link').style.display = 'none';
 	} else {
 	    document.getElementById('encrypt-out').textContent = boxed;
 	    hasStuff(document.getElementById('encrypt-out-cont'));
+	    document.getElementById('encrypt-out-link').href = "https://scrambl.is/read/" + stripWhitespace(urlSafeB64(boxed));
+	    document.getElementById('encrypt-out-link').style.display = 'block';
 	}
 	recipientChange(boxed);
     }
@@ -1846,7 +1888,11 @@ nacl.setPRNG = function(fn) {
     function deBoxer(secretKey) {
 	return function () {
 	    var toDecrypt = document.getElementById('decrypt-in').value;
-	    if (stripWhitespace(toDecrypt) && isLenientB64(toDecrypt)) {
+	    toDecrypt = stripWhitespaceEnds(toDecrypt);
+	    if (toDecrypt.indexOf("https://scrambl.is/read/") === 0) {
+		toDecrypt = toDecrypt.substring("https://scrambl.is/read/".length);
+	    }
+	    if (toDecrypt && isLenientB64(toDecrypt)) {
 		var deboxed = scrabblis_de_box(toDecrypt, secretKey);
 	    } else {
 		var deboxed = null;
@@ -1873,7 +1919,6 @@ nacl.setPRNG = function(fn) {
 	document.getElementById('passphrase-shown').textContent = '';
 	document.getElementById('setup-box').style.visibility = 'hidden';
 	document.getElementById('passphrase-in').focus();
-	return false;
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -1913,7 +1958,7 @@ nacl.setPRNG = function(fn) {
 	document.getElementById('passphrase-in').value = '';
 
 	if (!isProperPassphrase(passphrase)) {
-	    alert('Passphrase was not secure.\n\nPlease create a passphrase with the Generate passphrase button.\n\n(This may just mean the passphrase had a typo).');
+	    alert('Please use one of the passphrases made with the Generate passphrase button.\n\nYou may also be receiving this message if you mistyped one of those passphrases.');
 	    return false;
 	}
 
@@ -1942,7 +1987,9 @@ nacl.setPRNG = function(fn) {
 		break;
 	    }
 	}
-	document.getElementById('your-link').href = url;
+	document.getElementById('share-link').href = url;
+	document.getElementById('share-email').href = "mailto:?body=" + encodeURIComponent(url);
+	document.getElementById('share-twitter').href = "https://twitter.com/intent/tweet?text=My%20scrambl.is%20link&url=" + encodeURIComponent(url);
 
 	document.getElementById('your-address-cont').style.display = 'none';
 	document.getElementById('passphrase-in-cont').style.display = 'none';
@@ -2003,6 +2050,14 @@ nacl.setPRNG = function(fn) {
 
     window.onload = function () {
 
+	var hasRandom = false;
+	try {
+	    nacl.randomBytes(1);
+	    hasRandom = true;
+	} catch (e) {
+	    
+	}
+
 	// TODO: local-storage for recipient->pubkey mapping?
 	// -- less important with the shareable links
 	// -- watch out for /write/ links containing false keys.
@@ -2012,26 +2067,49 @@ nacl.setPRNG = function(fn) {
 	// size to mean eg. "is multipart email" and try to parse
 	// multipart stuff.
 
+	// TODO: If loading from URL, just show that component? maybe
+	// with a link to a fresh page?
+
+	// TODO: Could have a button to upload ciphertext to server
+	// and provide a short URL like
+	// https://scrambl.is/read/SYjjjGRPa4zOCjw3SUlJ but would
+	// require development time for implementation and DOS
+	// protection. A link expiry of 1 week would help, but needs
+	// to be clear that is the case.
+
 	var loadedText = loadCiphertextFromUrl();
-	var loadedKey = loadEncryptToFromUrl();
 
-	document.getElementById('passphrase-hider').onclick = setupHide;
+	if (hasRandom) {
+	    var loadedKey = loadEncryptToFromUrl();
 
-	document.getElementById('passphrase-generate').onclick = generateKey;
+	    document.getElementById('passphrase-generate').onclick = generateKey;
+
+	    document.getElementById('encrypt-in').onchange = enBox;
+	    document.getElementById('encrypt-to').onchange = enBox;
+	    document.getElementById('encrypt-in').onkeyup = enBox;
+	    document.getElementById('encrypt-to').onkeyup = enBox;
+
+	    document.getElementById('recipient-in').onchange = recipientChangeEvent;
+	    document.getElementById('recipient-in').onkeyup = recipientChangeEvent;
+
+	    recipientChange();
+
+	    document.getElementById('encrypt-out-link').onclick = copyLink;
+	    document.getElementById('share-link').onclick = copyShareLink;
+
+	    enBox();
+
+	} else {
+	    var loadedKey = false;
+
+	    document.getElementById('write-form').style.display = 'none';
+	    document.getElementById('setup-form').style.display = 'none';
+
+	    document.getElementById('write-no-random').style.display = 'block';
+	    document.getElementById('setup-no-random').style.display = 'block';
+	}
 
 	document.getElementById('passphrase-use').onclick = reKey;
-
-	document.getElementById('encrypt-in').onchange = enBox;
-	document.getElementById('encrypt-to').onchange = enBox;
-	document.getElementById('encrypt-in').onkeyup = enBox;
-	document.getElementById('encrypt-to').onkeyup = enBox;
-
-	document.getElementById('recipient-in').onchange = recipientChangeEvent;
-	document.getElementById('recipient-in').onkeyup = recipientChangeEvent;
-
-	recipientChange();
-
-	enBox();
 
 	if (loadedText) {
 	    setTimeout(focusPassphraseIn, 0);
