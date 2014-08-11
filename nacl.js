@@ -1,6 +1,13 @@
 (function(nacl) {
 'use strict';
 
+  // reduce ability to extract the secret values by changing globals
+  // after page load
+  var type = {}.toString;
+  var Uint8Array = window.Uint8Array;
+  var Uint32Array = window.Uint32Array;
+  var Float64Array = window.Float64Array;
+
 // Ported in 2014 by Dmitry Chestnykh and Devi Mandiri.
 // Public domain.
 //
@@ -933,7 +940,7 @@ function checkBoxLengths(pk, sk) {
 }
 
 function checkArrayTypes() {
-  var type = {}.toString, t;
+  var t;
   for (var i = 0; i < arguments.length; i++) {
      if ((t = type.call(arguments[i])) !== '[object Uint8Array]')
        throw new TypeError('unexpected type ' + t + ', use Uint8Array');

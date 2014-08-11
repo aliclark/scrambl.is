@@ -5,17 +5,15 @@
 
     ////////////////////////////////////////////////////////////////////////////////
     
-    // Cut down the ability to fiddle sensitive globals sometime after
-    // the page has loaded to get hold of the secret key. Currently it
-    // is still possible to do this via nacl's use of
-    // window.Uint8Array however. All other values are basically a
-    // lost cause due to their appearance at some point or other in
-    // the DOM.
+    // Make it hard to get the secret key once a passphrase has been entered
     var nacl = window.nacl;
     var Uint8Array = window.Uint8Array;
     window.nacl = undefined;
 
-    // do some more stuff for fun
+    // attempt to prevent tampering, though not as important or
+    // feasible as the secret key protection
+    var Uint16Array = window.Uint16Array;
+    var Uint32Array = window.Uint32Array;
 
     var words = window.words;
     var Base58 = window.Base58;
@@ -23,13 +21,9 @@
     window.words = undefined;
     window.Base58 = undefined;
 
-    // just OCD, doesn't do any thing for global "var"s.
     delete window.nacl;
     delete window.words;
     delete window.Base58;
-
-    var Uint16Array = window.Uint16Array;
-    var Uint32Array = window.Uint32Array;
 
     ////////////////////////////////////////////////////////////////////////////////
 
