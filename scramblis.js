@@ -459,7 +459,7 @@
 	document.getElementById('passphrase-in').value = '';
 
 	if (!isProperPassphrase(passphrase)) {
-	    alert('Passphrase was not secure.\n\nPlease create a passphrase with the Generate passphrase button');
+	    alert('Passphrase was not secure.\n\nPlease create a passphrase with the Generate passphrase button.\n\n(This may just mean the passphrase had a typo).');
 	    return false;
 	}
 
