@@ -269,6 +269,13 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    function copyLink() {
+	prompt("Copy to clipboard: Ctrl+C, Enter", document.getElementById("encrypt-out-link").href);
+	return false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     function recipientType(val) {
 	return (val.indexOf('@') > 0) ? 'email' : 'tweet';
     }
@@ -374,9 +381,12 @@
 	if (boxed === null) {
 	    document.getElementById('encrypt-out').textContent = "\n\n";
 	    doesntHaveStuff(document.getElementById('encrypt-out-cont'));
+	    document.getElementById('encrypt-out-link').style.display = 'none';
 	} else {
 	    document.getElementById('encrypt-out').textContent = boxed;
 	    hasStuff(document.getElementById('encrypt-out-cont'));
+	    document.getElementById('encrypt-out-link').href = "https://scrambl.is/read/" + stripWhitespace(urlSafeB64(boxed));
+	    document.getElementById('encrypt-out-link').style.display = 'block';
 	}
 	recipientChange(boxed);
     }
@@ -386,7 +396,11 @@
     function deBoxer(secretKey) {
 	return function () {
 	    var toDecrypt = document.getElementById('decrypt-in').value;
-	    if (stripWhitespace(toDecrypt) && isLenientB64(toDecrypt)) {
+	    toDecrypt = stripWhitespaceEnds(toDecrypt);
+	    if (toDecrypt.indexOf("https://scrambl.is/read/") === 0) {
+		toDecrypt = toDecrypt.substring("https://scrambl.is/read/".length);
+	    }
+	    if (toDecrypt && isLenientB64(toDecrypt)) {
 		var deboxed = scrabblis_de_box(toDecrypt, secretKey);
 	    } else {
 		var deboxed = null;
@@ -560,11 +574,18 @@
 	// size to mean eg. "is multipart email" and try to parse
 	// multipart stuff.
 
-	// If loading from URL, just show that component? maybe with a link to a fresh page?
-	// pastebin links?
-	// URL shortener links?
-	// better sharing of /write/ urls?
-	// Could 
+	// TODO: Twitter/Email/Plain Link/Google+/Facebook sharing of the /write/ url
+
+	// TODO: If loading from URL, just show that component? maybe with a link to a fresh page?
+
+	// TODO: URL shortener Button? eg. "http://is.gd/create.php?url=https%3A%2F%2Fscrambl.is%2Fread%2F"+ct for <=4096 ciphertext
+	// -- they may not be happy with this usage case
+
+	// A bespoke solution like
+	// https://scrambl.is/read/SYjjjGRPa4zOCjw3SUlJ may be better,
+	// but requires development type for implementation and DOS
+	// protection. It would be good to say up-front that links
+	// will expire in 1 weeek.
 
 	var loadedText = loadCiphertextFromUrl();
 
@@ -584,6 +605,8 @@
 	    document.getElementById('recipient-in').onkeyup = recipientChangeEvent;
 
 	    recipientChange();
+
+	    document.getElementById('encrypt-out-link').onclick = copyLink;
 
 	    enBox();
 

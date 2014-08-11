@@ -52,6 +52,17 @@ h2 {
     padding-left: 16px;
 }
 
+#encrypt-out-cont {
+    position: relative;
+}
+
+#encrypt-out-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+}
+
 #your-key-cont {
     display: none;
     padding-bottom: 32px;
