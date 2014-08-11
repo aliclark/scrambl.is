@@ -520,8 +520,8 @@
     function generateKey() {
 	document.getElementById('passphrase-generate').style.display = 'none';
 	document.getElementById('passphrase-showing-box').style.display = 'block';
-	document.getElementById('passphrase-hider').focus();
 	document.getElementById('passphrase-shown').textContent = select7Words();
+	document.getElementById('passphrase-in').focus();
 	return false;
     }
 
