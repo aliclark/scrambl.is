@@ -1849,7 +1849,28 @@ nacl.setPRNG = function(fn) {
 	}
 	// copy-pasting could have added some space
 	encryptTo = stripWhitespaceEnds(encryptTo);
-	// update the form value with stripped space
+
+	var writeIndex = encryptTo.indexOf('/write/');
+	if (writeIndex >= 0) {
+	    encryptTo = encryptTo.substring(writeIndex + '/write/'.length);
+	    var tweetIndex = encryptTo.indexOf('/tweet/');
+	    if (tweetIndex >= 0) {
+		document.getElementById('recipient-in').value = decodeURIComponent(encryptTo.substring(tweetIndex + '/tweet/'.length));
+		encryptTo = encryptTo.substring(0, tweetIndex);
+	    } else {
+		var emailIndex = encryptTo.indexOf('/email/');
+		if (emailIndex >= 0) {
+		    document.getElementById('recipient-in').value = decodeURIComponent(encryptTo.substring(emailIndex + '/email/'.length));
+		    encryptTo = encryptTo.substring(0, emailIndex);
+		}
+	    }
+	    if (isTaggedKeyValid(encryptTo)) {
+		// because a /write/ URL has only just been pasted in,
+		// this is probably what we want.
+		document.getElementById('encrypt-in').focus();
+	    }
+	}
+	// update the form value
 	document.getElementById('encrypt-to').value = encryptTo;
 
 	var pubkey = getValidPubkeyB58(encryptTo)
