@@ -508,7 +508,7 @@
 	document.getElementById('passphrase-in-cont').style.display = 'none';
 	document.getElementById('your-key-cont').style.display = 'block';
 
-	document.getElementById('decrypt-in').focus();
+	document.getElementById('share-link').focus();
 	return false;
     }
 
