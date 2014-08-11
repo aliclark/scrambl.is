@@ -543,6 +543,14 @@
 
     window.onload = function () {
 
+	var hasRandom = false;
+	try {
+	    nacl.randomBytes(1);
+	    hasRandom = true;
+	} catch (e) {
+	    
+	}
+
 	// TODO: local-storage for recipient->pubkey mapping?
 	// -- less important with the shareable links
 	// -- watch out for /write/ links containing false keys.
@@ -552,26 +560,44 @@
 	// size to mean eg. "is multipart email" and try to parse
 	// multipart stuff.
 
+	// If loading from URL, just show that component? maybe with a link to a fresh page?
+	// pastebin links?
+	// URL shortener links?
+	// better sharing of /write/ urls?
+	// Could 
+
 	var loadedText = loadCiphertextFromUrl();
-	var loadedKey = loadEncryptToFromUrl();
 
-	document.getElementById('passphrase-hider').onclick = setupHide;
+	if (hasRandom) {
+	    var loadedKey = loadEncryptToFromUrl();
 
-	document.getElementById('passphrase-generate').onclick = generateKey;
+	    document.getElementById('passphrase-hider').onclick = setupHide;
+
+	    document.getElementById('passphrase-generate').onclick = generateKey;
+
+	    document.getElementById('encrypt-in').onchange = enBox;
+	    document.getElementById('encrypt-to').onchange = enBox;
+	    document.getElementById('encrypt-in').onkeyup = enBox;
+	    document.getElementById('encrypt-to').onkeyup = enBox;
+
+	    document.getElementById('recipient-in').onchange = recipientChangeEvent;
+	    document.getElementById('recipient-in').onkeyup = recipientChangeEvent;
+
+	    recipientChange();
+
+	    enBox();
+
+	} else {
+	    var loadedKey = false;
+
+	    document.getElementById('write-form').style.display = 'none';
+	    document.getElementById('setup-form').style.display = 'none';
+
+	    document.getElementById('write-no-random').style.display = 'block';
+	    document.getElementById('setup-no-random').style.display = 'block';
+	}
 
 	document.getElementById('passphrase-use').onclick = reKey;
-
-	document.getElementById('encrypt-in').onchange = enBox;
-	document.getElementById('encrypt-to').onchange = enBox;
-	document.getElementById('encrypt-in').onkeyup = enBox;
-	document.getElementById('encrypt-to').onkeyup = enBox;
-
-	document.getElementById('recipient-in').onchange = recipientChangeEvent;
-	document.getElementById('recipient-in').onkeyup = recipientChangeEvent;
-
-	recipientChange();
-
-	enBox();
 
 	if (loadedText) {
 	    setTimeout(focusPassphraseIn, 0);

@@ -68,3 +68,8 @@ h2 {
 #passphrase-shown {
     font-size: 12px;
 }
+
+#write-no-random,
+#setup-no-random {
+    display: none;
+}
