@@ -1996,7 +1996,7 @@ nacl.setPRNG = function(fn) {
 	document.getElementById('passphrase-in-cont').style.display = 'none';
 	document.getElementById('your-key-cont').style.display = 'block';
 
-	document.getElementById('decrypt-in').focus();
+	document.getElementById('share-link').focus();
 	return false;
     }
 
@@ -2035,8 +2035,8 @@ nacl.setPRNG = function(fn) {
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    function focusRecipientIn() {
-	document.getElementById('recipient-in').focus();
+    function focusGeneratePassphrase() {
+	document.getElementById('passphrase-generate').focus();
     }
 
     function focusEncryptIn() {
@@ -2117,7 +2117,7 @@ nacl.setPRNG = function(fn) {
 	} else if (loadedKey) {
 	    setTimeout(focusEncryptIn, 0);
 	} else {
-	    setTimeout(focusRecipientIn, 0);
+	    setTimeout(focusGeneratePassphrase, 0);
 	}
 	document.getElementById('all').style.display = 'block';
     };
