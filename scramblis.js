@@ -592,25 +592,6 @@
 	    
 	}
 
-	// TODO: local-storage for recipient->pubkey mapping?
-	// -- less important with the shareable links
-	// -- watch out for /write/ links containing false keys.
-
-	// TODO: allow Upload file button and check file magic to
-	// offer file download on return. Or eg. reserve max padding
-	// size to mean eg. "is multipart email" and try to parse
-	// multipart stuff.
-
-	// TODO: If loading from URL, just show that component? maybe
-	// with a link to a fresh page?
-
-	// TODO: Could have a button to upload ciphertext to server
-	// and provide a short URL like
-	// https://scrambl.is/read/SYjjjGRPa4zOCjw3SUlJ but would
-	// require development time for implementation and DOS
-	// protection. A link expiry of 1 week would help, but needs
-	// to be clear that is the case.
-
 	var loadedText = loadCiphertextFromUrl();
 
 	if (hasRandom) {
