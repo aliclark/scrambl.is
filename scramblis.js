@@ -478,6 +478,19 @@
 	return wordsFound >= 7;
     }
 
+    function keyShredder(secretKey) {
+	return function () {
+	    for (var i = 0; i < nacl.box.secretKeyLength; ++i) {
+		secretKey[i] = nacl.randomBytes(1)[0];
+	    }
+	    secretKey.set(nacl.randomBytes(nacl.box.secretKeyLength));
+	    secretKey = undefined;
+	    document.getElementById('decrypt-in').onchange = undefined;
+	    document.getElementById('decrypt-in').onkeyup = undefined;
+	    return false;
+	};
+    }
+
     // A form exists to enable the Remember Password feature of Firefox
     // (unfortunately other browsers won't even remember with that).  But
     // it's quite important to kill the event so it doesn't actually post
@@ -506,6 +519,8 @@
 	document.getElementById('decrypt-in').onchange = deBox;
 	document.getElementById('decrypt-in').onkeyup = deBox;
 	deBox();
+
+	window.onunload = keyShredder(keyPair.secretKey);
 
 	setupHide();
 
