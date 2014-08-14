@@ -11,7 +11,6 @@
 <style type="text/css">
 
 #all {
-    display: none;
     margin-top: 64px;
 }
 
@@ -102,7 +101,7 @@ h2 {
       <h1>scrambl.is</h1>
       <p>Please enabled Javascript before using this page.</p>
     </noscript>
-    <div id="all">
+    <div id="all" style="display: none;">
 
       <div id="setup-box" class="box">
 	<div class="box-inner">
@@ -192,6 +191,13 @@ h2 {
 	    </div>
 	  </form>
 	</div>
+
+	<div class="box">
+	  <div class="box-inner">
+	    <a href="/about">about</a>
+	  </div>
+	</div>
+
       </div>
 
     </div>
@@ -1966,6 +1972,19 @@ nacl.setPRNG = function(fn) {
 	return wordsFound >= 7;
     }
 
+    function keyShredder(secretKey) {
+	return function () {
+	    for (var i = 0; i < nacl.box.secretKeyLength; ++i) {
+		secretKey[i] = nacl.randomBytes(1)[0];
+	    }
+	    secretKey.set(nacl.randomBytes(nacl.box.secretKeyLength));
+	    secretKey = undefined;
+	    document.getElementById('decrypt-in').onchange = undefined;
+	    document.getElementById('decrypt-in').onkeyup = undefined;
+	    return false;
+	};
+    }
+
     // A form exists to enable the Remember Password feature of Firefox
     // (unfortunately other browsers won't even remember with that).  But
     // it's quite important to kill the event so it doesn't actually post
@@ -1994,6 +2013,8 @@ nacl.setPRNG = function(fn) {
 	document.getElementById('decrypt-in').onchange = deBox;
 	document.getElementById('decrypt-in').onkeyup = deBox;
 	deBox();
+
+	window.onunload = keyShredder(keyPair.secretKey);
 
 	setupHide();
 
@@ -2079,25 +2100,6 @@ nacl.setPRNG = function(fn) {
 	} catch (e) {
 	    
 	}
-
-	// TODO: local-storage for recipient->pubkey mapping?
-	// -- less important with the shareable links
-	// -- watch out for /write/ links containing false keys.
-
-	// TODO: allow Upload file button and check file magic to
-	// offer file download on return. Or eg. reserve max padding
-	// size to mean eg. "is multipart email" and try to parse
-	// multipart stuff.
-
-	// TODO: If loading from URL, just show that component? maybe
-	// with a link to a fresh page?
-
-	// TODO: Could have a button to upload ciphertext to server
-	// and provide a short URL like
-	// https://scrambl.is/read/SYjjjGRPa4zOCjw3SUlJ but would
-	// require development time for implementation and DOS
-	// protection. A link expiry of 1 week would help, but needs
-	// to be clear that is the case.
 
 	var loadedText = loadCiphertextFromUrl();
 
