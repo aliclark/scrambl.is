@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>scrambl.is</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style type="text/css">
+#passphrase-continue {
+    display: none;
+    float: right;
+}
+#contact-continue {
+    float: right;
+}
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <h1>scrambl.is</h1>
+      <p>Please enabled Javascript before using this page.</p>
+    </noscript>
+
+    <div id="all" style="display: none;">
+
+      <div id="setup-no-random">
+	<p>Unfortunately a modern browser such as Chrome, Firefox or
+	  Internet Explorer 11 is required to generate
+	  passphrases.</p>
+      </div>
+
+      <div id="setup1-box" class="box">
+	<div class="box-inner">
+	  <h2>Step 1</h2>
+	  <p>First, you will need a secret passphrase with which to
+	  unlock your private messages.</p>
+	  <p>Here's one that's been randomly chosen by your computer
+	  from more than two decillion possibilities:</p>
+	  <p style="font-family: monospace;" id="passphrase"></p>
+	  <p>Please either learn or write it down somewhere safe (like
+	  your purse or wallet) before continuing. Without it you will
+	  not be able to read past messages, so take care!</p>
+	  <p>To confirm you got it down correctly, please type it
+	  here:</p>
+	  <form role="form">
+	    <div class="form-group">
+	      <input id="passphrase-confirm" type="password" class="form-control" placeholder="Your passphrase">
+	    </div>
+	    <div class="form-group">
+	      <button type="submit" class="btn btn-default" id="passphrase-continue">Continue</button>
+	    </div>
+	  </form>
+	</div>
+      </div>
+
+      <div id="setup2-box" class="box">
+	<div class="box-inner">
+	  <h2>Step 2</h2>
+	  <p>In a moment you'll have a public identifier that you can
+	  advertise, in the form of a clickable link.</p>
+	  <p>When friends click on the link, they'll be able to start
+	  typing their message, and only you will be able to read it
+	  (using the passphrase entered a moment ago).</p>
+	  <p>If you want to be extra helpful, you can add your email
+	  address or twitter name to your link. This will give your
+	  friends a quick button they can press to send the message
+	  when it's ready.</p>
+	  <p>Otherwise, your friends can send you a link to the
+	  private message using whatever method they like. On clicking
+	  the link you'll be able to read their private message by
+	  entering your passphrase.</p>
+	  <form role="form">
+	    <div class="form-group">
+	      <div class="input-group">
+		<div class="input-group-addon">@</div>
+		<input id="contact-email" class="form-control" placeholder="Your email (optional)">
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <div class="input-group">
+		<div class="input-group-addon">@</div>
+		<input id="contact-twitter" class="form-control" placeholder="Your twitter (optional)">
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <button type="submit" class="btn btn-default" id="contact-continue">Continue</button>
+	    </div>
+	  </form>
+	</div>
+      </div>
+
+      <div id="setup3-box" class="box">
+	<div class="box-inner">
+	  <h2>Step 3</h2>
+	  <p>Hooray, all done! Here's a link to share with your
+	  friends. They'll be able to send you completely
+	  private messages when clicking it.</p>
+	  <a id="link"></a>
+	  <p>Share:
+	    <a class="btn btn-link" href="#" id="share-link">Copy</a>
+	    <a class="btn btn-link" href="#" id="share-email">E-mail</a>
+	    <a class="btn btn-link" href="#" id="share-twitter">Twitter</a>
+	  </p>
+	</div>
+      </div>
+
+    </div>
+    <script type="text/javascript" src="words.js"></script>
+    <script type="text/javascript" src="base58.js"></script>
+    <script type="text/javascript" src="nacl.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+  </body>
+</html>

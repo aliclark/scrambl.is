@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>scrambl.is</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style type="text/css">
+
+
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <h1>scrambl.is</h1>
+      <p>Please enabled Javascript before using this page.</p>
+    </noscript>
+
+    <div id="all" style="display: none;">
+
+      <div id="write-box" class="box">
+	<div class="box-inner">
+	  <h2>Write</h2>
+	  <p id="write-no-random">Unfortunately a modern browser such
+	  as Chrome, Firefox or Internet Explorer 11 is required to
+	  compose messages.</p>
+	  <form id="write-form" role="form">
+	    <div class="form-group form-inline">
+	      <div class="input-group">
+		<div class="input-group-addon">@</div>
+		<input id="recipient-in" class="form-control" placeholder="To twitter / email (optional)">
+	      </div>
+	      <a id="tweet-btn" class="btn btn-default" style="display: none;">tweet</a>
+	      <a id="email-btn" class="btn btn-default" style="display: none;">email</a>
+	    </div>
+	    <div class="form-group">
+	      <input id="encrypt-to" class="form-control pubkey" placeholder="Copy their public key or link into here">
+	    </div>
+	    <div class="form-group">
+	      <textarea id="encrypt-in" class="form-control" rows="4" placeholder="Your message"></textarea>
+	    </div>
+	    <div id="encrypt-out-cont" class="ciphertext result">
+	      <div id="encrypt-out" class="inner">
+
+</div>
+	      <a id="encrypt-out-link" class="btn btn-link">Copy<br>link</a>
+	    </div>
+	  </form>
+	</div>
+      </div>
+
+    </div>
+    <script type="text/javascript" src="words.js"></script>
+    <script type="text/javascript" src="base58.js"></script>
+    <script type="text/javascript" src="nacl.js"></script>
+    <script type="text/javascript" src="write.js"></script>
+  </body>
+</html>
